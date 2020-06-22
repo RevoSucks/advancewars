@@ -85,29 +85,6 @@ _0807AF8E:
 	mov r8, r3
 	pop {r4, r5, r6, r7, pc}
 
-	THUMB_FUNC_START sub_807AF94
-sub_807AF94: @ 0x0807AF94
-	adds r3, r2, #0
-	movs r2, #0
-	strb r2, [r0]
-	str r2, [r0, #4]
-	strb r3, [r0, #1]
-	strb r2, [r0, #2]
-	str r1, [r0, #0xc]
-	str r1, [r0, #8]
-	cmp r3, #0
-	ble _0807AFB6
-	movs r0, #0
-	adds r2, r3, #0
-_0807AFAC:
-	str r0, [r1]
-	adds r1, #0xc
-	subs r2, #1
-	cmp r2, #0
-	bne _0807AFAC
-_0807AFB6:
-	bx lr
-
 	THUMB_FUNC_START sub_807AFB8
 sub_807AFB8: @ 0x0807AFB8
 	adds r1, r0, #0
