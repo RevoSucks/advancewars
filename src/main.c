@@ -52,49 +52,7 @@ extern u32 sub_807B1B0(void *ptr1, u32 arg);
 extern u32 sub_807B1CC(void *ptr1, u32 arg1, u32 arg2);
 extern u32 sub_807B250(void *ptr1, u32 arg);
 extern void sub_807B27C(void *ptr1, void *ptr2, u32 arg);
-
-#ifdef NONMATCHING
-// Minor: Registers used for temporary copies of arguments are wrong
-void sub_807AF94(struct sub_807AF94_ptr1 *ptr1, struct sub_807AF94_ptr2 *ptr2, u32 arg) {
-    ptr1->field0 = 0;
-    ptr1->field3 = 0;
-    ptr1->field1 = arg;
-    ptr1->field2 = 0;
-    ptr1->field5 = ptr2;
-    ptr1->field4 = ptr2;
-
-    for(; arg != 0; arg--)
-    {
-        ptr2->field0 = 0;
-        ptr2++;
-    }
-}
-#else
-__attribute__((naked)) void sub_807AF94(struct sub_807AF94_ptr1 *ptr1, struct sub_807AF94_ptr2 *ptr2, u32 arg) {
-    asm(".syntax unified\n\
-    adds r3, r2, #0\n\
-    movs r2, #0\n\
-    strb r2, [r0, #0]\n\
-    str  r2, [r0, #4]\n\
-    strb r3, [r0, #1]\n\
-    strb r2, [r0, #2]\n\
-    str  r1, [r0, #12]\n\
-    str  r1, [r0, #8]\n\
-    cmp  r3, #0\n\
-    ble _0807AFB6\n\
-    movs r0, #0\n\
-    adds r2, r3, #0\n\
-_0807AFAC:\n\
-    str r0, [r1]\n\
-    adds r1, #0xc\n\
-    subs r2, #1\n\
-    cmp r2, #0\n\
-    bne _0807AFAC\n\
-_0807AFB6:\n\
-    bx lr\n\
-    .syntax divided");
-}
-#endif
+extern void sub_807AF94(struct sub_807AF94_ptr1 *ptr1, struct sub_807AF94_ptr2 *ptr2, u32 arg);
 
 void sub_807AC88() {
     sub_807AF94(&gUnknown_03006560, &gUnknown_03006570, 16);

@@ -1,7 +1,13 @@
+ifeq ($(OS),Windows_NT)
+EXE := .exe
+else
+EXE :=
+endif
+
 AS      := $(DEVKITARM)/bin/arm-none-eabi-as
 ASFLAGS := -mcpu=arm7tdmi
 
-CC1             := tools/agbcc/bin/agbcc
+CC1             := tools/agbcc/bin/old_agbcc$(EXE)
 override CFLAGS += -mno-thumb-interwork -Wimplicit -Wparentheses -Wunused -Werror -O2 -fhex-asm
 
 CPP      := $(DEVKITARM)/bin/arm-none-eabi-cpp
@@ -11,11 +17,13 @@ LD      := $(DEVKITARM)/bin/arm-none-eabi-ld
 
 OBJCOPY := $(DEVKITARM)/bin/arm-none-eabi-objcopy
 
-GBAFIX := $(DEVKITPRO)/tools/bin/gbafix
+GBAFIX := tools/gbafix/gbafix$(EXE)
 
 LIBGCC := tools/agbcc/lib/libgcc.a
 
 MD5 := md5sum -c
+
+SHA1SUM := sha1sum -c
 
 # Clear the default suffixes.
 .SUFFIXES:
@@ -80,3 +88,4 @@ advancewars.elf: linker.ld $(OBJS)
 advancewars.gba: advancewars.elf
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x4000000 $< $@
 	$(GBAFIX) $@ -p -t"$(TITLE)" -c$(GAME_CODE) -m$(MAKER_CODE) -r$(GAME_REVISION)
+	$(SHA1SUM) advancewars.sha1
