@@ -8,7 +8,7 @@ AS      := $(DEVKITARM)/bin/arm-none-eabi-as
 ASFLAGS := -mcpu=arm7tdmi
 
 CC1             := tools/agbcc/bin/old_agbcc$(EXE)
-override CFLAGS += -mno-thumb-interwork -Wimplicit -Wparentheses -Wunused -Werror -O2 -fhex-asm
+override CFLAGS = -mno-thumb-interwork -Wimplicit -Wparentheses -Wunused -Werror -O2 -fhex-asm
 
 CPP      := $(DEVKITARM)/bin/arm-none-eabi-cpp
 CPPFLAGS := -I tools/agbcc/include -iquote include -nostdinc -undef
@@ -43,6 +43,10 @@ ASM_OBJS := $(ASM_SRCS:%.s=%.o)
 
 DATA_ASM_SRCS := $(wildcard data/*.s)
 DATA_ASM_OBJS := $(DATA_ASM_SRCS:%.s=%.o)
+
+## Object Overrides ##
+
+src/m4a.o: CFLAGS := -mthumb-interwork -Wimplicit -Wparentheses -Wunused -Werror -O2 -fhex-asm
 
 OBJS := $(C_OBJS) $(ASM_OBJS) $(DATA_ASM_OBJS)
 

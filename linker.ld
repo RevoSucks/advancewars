@@ -1,5 +1,8 @@
 ENTRY(__start)
 
+gNumMusicPlayers = 9;
+gMaxLines = 0;
+
 MEMORY {
     ewram (w!x) : ORIGIN = 0x02000000, LENGTH = 256K
     iwram (w!x) : ORIGIN = 0x03000000, LENGTH = 32K
@@ -234,7 +237,7 @@ SECTIONS {
 . = 0x00000918; gUnknown_03000918 = .;
 . = 0x00000920; gUnknown_03000920 = .;
 . = 0x00000938; gUnknown_03000938 = .;
-. = 0x00000948; gUnknown_03000948 = .;
+. = 0x00000948; SoundMainRAM_Buffer = .;
 . = 0x00000949; gUnknown_03000949 = .;
 . = 0x00000D50; gUnknown_03000D50 = .;
 . = 0x00000D70; gUnknown_03000D70 = .;
@@ -590,19 +593,19 @@ SECTIONS {
 . = 0x000051B4; gUnknown_030051B4 = .;
 . = 0x000051B8; gUnknown_030051B8 = .;
 . = 0x000051C0; gUnknown_030051C0 = .;
-. = 0x000051F0; gUnknown_030051F0 = .;
-. = 0x000061A0; gUnknown_030061A0 = .;
+. = 0x000051F0; gSoundInfo = .;
+. = 0x000061A0; gMPlayJumpTable = .;
 . = 0x000061A4; gUnknown_030061A4 = .;
 . = 0x00006228; gUnknown_03006228 = .;
 . = 0x0000622C; gUnknown_0300622C = .;
-. = 0x00006230; gUnknown_03006230 = .;
+. = 0x00006230; gCgbChans = .;
 . = 0x00006330; gUnknown_03006330 = .;
 . = 0x00006370; gUnknown_03006370 = .;
 . = 0x000063B0; gUnknown_030063B0 = .;
 . = 0x000063F0; gUnknown_030063F0 = .;
 . = 0x00006430; gUnknown_03006430 = .;
 . = 0x00006470; gUnknown_03006470 = .;
-. = 0x000064B0; gUnknown_030064B0 = .;
+. = 0x000064B0; gMPlayMemAccArea = .;
 . = 0x000064C0; gUnknown_030064C0 = .;
 . = 0x00006500; gUnknown_03006500 = .;
 . = 0x00006540; gUnknown_03006540 = .;
@@ -624,7 +627,6 @@ SECTIONS {
 . = 0x00007C00; gUnknown_03007C00 = .;
 . = 0x00007F00; gUnknown_03007F00 = .;
 . = 0x00007F80; gUnknown_03007F80 = .;
-. = 0x00007FF0; gUnknown_03007FF0 = .;
 . = 0x00007FFC; gUnknown_03007FFC = .;
 /*. = 0x00E60000; gUnknown_03E60000 = .;*/
     } >iwram
@@ -632,6 +634,9 @@ SECTIONS {
     .text : ALIGN(4) {
         asm/crt0.o(.text);
         asm/libraries.o(.text);
+        asm/m4a_1.o(.text);
+        src/m4a.o(.text);
+        asm/code_8079644.o(.text);
         src/main.o(.text);
         asm/main.o(.text);
     } >rom
